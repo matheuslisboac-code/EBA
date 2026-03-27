@@ -123,6 +123,7 @@ static EbaResult _eba_hash_resize(EbaHash *hash, size_t new_capacity){
     hash->capacity = new_capacity;
     hash->threshold = (size_t)(hash->capacity * hash->load_factor);    
     hash->size = 0;
+    hash->used_slots = 0;
     memset((void *)(hash->states), 0, new_capacity);
 
     for(size_t index = 0; index < old_capacity; index++){
