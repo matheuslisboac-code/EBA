@@ -291,3 +291,35 @@ void eba_hash_remove_str(EbaHash *hash, const char *key_str) {
     if (!hash || !key_str) return;
     eba_hash_remove(hash, (void *)key_str);
 }
+
+
+int eba_hash_int_cmp(void *key1, void *key2) {
+    return (*(uint64_t *)key1) == (*(uint64_t *)key2);
+}
+
+size_t eba_hash_int_hash(void *key) {
+    uint64_t x = *(uint64_t *)key;
+    
+    x ^= x >> 30;
+    x *= 0xbf58476d1ce4e5b9ULL;
+    x ^= x >> 27;
+    x *= 0x94d049bb133111ebULL;
+    x ^= x >> 31;
+    
+    return (size_t)x;
+}
+
+EbaResult eba_hash_init_int(
+    EbaHash *hash, size_t capacity, 
+    size_t item_size, const EbaAllocator *allocator
+) {
+    return eba_hash_init_pro(
+        hash, 
+        capacity, 
+        EBA_HASH_DEFAULT_LOAD_FACTOR, 
+        item_size, EBA_HASH_DEFAULT_ALIGN, 
+        sizeof(uint64_t), sizeof(uint64_t),
+        eba_hash_int_hash, eba_hash_int_cmp, 
+        allocator
+    );
+}

@@ -90,4 +90,14 @@ EbaResult eba_hash_put_str(EbaHash *hash, const char *key_str, void *item);
 void *eba_hash_get_str(EbaHash *hash, const char *key_str);
 void eba_hash_remove_str(EbaHash *hash, const char *key_str);
 
+int eba_hash_int_cmp(void *key1, void *key2);
+size_t eba_hash_int_hash(void *key);
+
+EbaResult eba_hash_init_int(
+    EbaHash *hash, size_t capacity, 
+    size_t item_size, const EbaAllocator *allocator
+);
+
+
+
 #endif // EBA_HASH_H
