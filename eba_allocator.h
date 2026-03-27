@@ -1,4 +1,8 @@
+#ifndef EBA_ALLOCATOR_H
+#define EBA_ALLOCATOR_H
 #include <stddef.h>
+
+#define EBA_ALIGN_UP(size, align) (((size) + (align) - 1) & ~((align) - 1))
 
 typedef void *(*EbaAllocFn)(void *ctx, size_t size);
 typedef void *(*EbaAlignAllocFn)(void *ctx, size_t size, size_t align);
@@ -12,4 +16,11 @@ typedef struct{
     EbaReallocFn realloc;
     EbaAlignReallocFn aln_realloc;
     EbaFreeFn free;
+
+    void *context;
 }EbaAllocator;
+
+extern const EbaAllocator eba_std_allocator;
+
+
+#endif
